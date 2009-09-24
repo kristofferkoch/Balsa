@@ -1,0 +1,18 @@
+Add error reports for multiple same elements in guard list ie:  a,a
+Add shared function declarations
+Shared Function invocation
+Arrays:	Slices on vectored types, make identexpr/...extractexpr consistent with Lvalue
+Balsac vector handling - clean up
+Add support for constructs such as Regs5{R[1..5]}[a], ie. vector element extraction from a constructed
+	vector of elements of the right size. (or multiples thereof), also add support for vector slices
+	in vector cons. expressions.
+Error reporting in for
+Fix dot
+Language ref manual
+Manual for translation scheme (backend?)
+Specify backend components
+Tests
+Val expressions handling
+Web pages
+Add switch to list path
+Add verbose descriptions of file inclusion

@@ -1,0 +1,19 @@
+(defines
+	(PPstyle (assoc "PP" style-options))
+	(PPstyle (if PPstyle (cdr PPstyle) "ovlp"))
+	(FVstyle (if (= PPstyle "conv") ("FV" . "conv") (assoc "FV" style-options)))
+	(FVstyle (if FVstyle (cdr FVstyle) "ovlp"))
+)
+(nodes)
+(gates
+	(case FVstyle
+		(("ovlp")
+			(cell "t-element" (req "inp") (ack "inp") (req "out") (ack "out"))
+		)
+		(else
+			(s-element (req "inp") (ack "inp") (req "out") (ack "out"))
+		)
+	)
+)
+(connections
+)

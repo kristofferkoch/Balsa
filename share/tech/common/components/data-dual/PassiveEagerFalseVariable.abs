@@ -1,0 +1,60 @@
+(defines
+	(FVstyle (assoc "FV" style-options))
+	(FVstyle (if FVstyle (cdr FVstyle) "ovlp"))
+)
+(nodes
+	("cd" 1 0 1)
+	("partCD" (param "width") 0 1)
+	("store" (param "width") 0 2)
+	("readReq" 1 0 (param "readPortCount"))
+	("writeAck" 1 0 1)
+	("sigAck" (case FVstyle (("ovlp") 1) (else 0)) 0 1)
+	("rReqOr" (case FVstyle (("ovlp") 1) (else 0)) 0 1)
+)
+(gates
+	; do completion detection on the input.
+	(or (node "partCD") (node (bundle "store" 0)) (node (bundle "store" 1)))
+	(c-element (node "cd") (smash (node "partCD")))
+	(case FVstyle
+		(("ovlp")
+			(cell "t-element" (req "trigger") (node "sigAck") (req "signal") (ack "signal"))
+			(nor (node "rReqOr") (node (each "readReq")))
+			(and (node "writeAck") (node "sigAck") (node "rReqOr"))
+		)
+		(else
+			(s-element (req "trigger") (node "writeAck") (req "signal") (ack "signal"))
+		)
+	)
+	(c-element (ack "trigger") (node "writeAck") (node "cd"))
+	; data read ports
+	
+	(if suggest-buffers
+		(gates
+			(if (> (param "readPortCount") 2)
+				(gates
+					(cell "suggested-buffer" (node (bundle "store" 0)) (req0 "write"))
+					(cell "suggested-buffer" (node (bundle "store" 1)) (req1 "write"))
+				)
+				(gates
+					(connect (req0 "write") (node (bundle "store" 0)))
+					(connect (req1 "write") (node (bundle "store" 1)))
+				)
+			)
+			(if (> (param "width") 2)
+				(cell "suggested-buffer" (combine (node (each "readReq"))) (combine (req (each "read"))))
+				(connect (combine (req (each "read"))) (combine (node (each "readReq"))))
+			)
+		)
+		(gates
+			(connect (req0 "write") (node (bundle "store" 0)))
+			(connect (req1 "write") (node (bundle "store" 1)))
+			(connect (combine (req (each "read"))) (combine (node (each "readReq"))))
+		)
+	)
+	
+	; data read ports
+	(macro dual-rail-connect-read-ports (param "width") (param "readPortCount") (param "specification") "store" "readReq")
+)
+(connections
+	(connect (ack "trigger") (ack "write"))
+)

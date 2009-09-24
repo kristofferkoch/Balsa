@@ -1,0 +1,23 @@
+(primitive-part
+    "ActiveEagerFalseVariable"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("readPortCount" (named-type "cardinal"))
+				("specification" (string))
+    )
+    (ports
+        (sync-port "trigger" passive)
+        (port "write" active input (numeric-type #f (param "width")))
+        (sync-port "signal" active)
+        (arrayed-port "read" passive output (variable-array-type (numeric-type #f (param "width")) 0 (param "readPortCount") (param "specification")) 0 (param "readPortCount"))
+    )
+    (symbol
+        (centre-string "aeFV")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/ActiveEagerFalseVariable"))
+        (style "dual_b" (include tech "common" "data-dual/ActiveEagerFalseVariable"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/ActiveEagerFalseVariable"))
+        (style "four_e_e" (include tech "common" "data-single-early/FalseVariable"))
+    )
+)

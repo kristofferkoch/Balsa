@@ -1,0 +1,81 @@
+;;;
+;;;	The Balsa Asynchronous Hardware Synthesis System
+;;;	Copyright (C) 1995-2003 Department of Computer Science
+;;;	The University of Manchester, Oxford Road, Manchester, UK, M13 9PL
+;;;	
+;;;	This program is free software; you can redistribute it and/or modify
+;;;	it under the terms of the GNU General Public License as published by
+;;;	the Free Software Foundation; either version 2 of the License, or
+;;;	(at your option) any later version.
+;;;	
+;;;	This program is distributed in the hope that it will be useful,
+;;;	but WITHOUT ANY WARRANTY; without even the implied warranty of
+;;;	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;;;	GNU General Public License for more details.
+;;;	
+;;;	You should have received a copy of the GNU General Public License
+;;;	along with this program; if not, write to the Free Software
+;;;	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+;;;
+;;;	`components.abs'
+;;;	Breeze primitive components
+;;;
+;;;	$Id: components.abs,v 1.23 2003/08/24 18:24:41 bardslea Exp $
+;;;
+
+(include tech "common" "definitions")
+
+(include tech "common" "ActiveEagerFalseVariable")
+(include tech "common" "ActiveEagerNullAdapt")
+(include tech "common" "Adapt")
+(include tech "common" "Arbiter")
+(include tech "common" "Bar")
+(include tech "common" "BinaryFunc")
+(include tech "common" "BinaryFuncConstR")
+(include tech "common" "BinaryFuncConstRPush")
+(include tech "common" "BinaryFuncPush")
+(include tech "common" "Call")
+(include tech "common" "CallActive")
+(include tech "common" "CallDemux")
+(include tech "common" "CallDemuxPush")
+(include tech "common" "CallMux")
+(include tech "common" "Case")
+(include tech "common" "CaseFetch")
+(include tech "common" "Combine")
+(include tech "common" "CombineEqual")
+(include tech "common" "Concur")
+(include tech "common" "Constant")
+(include tech "common" "Continue")
+(include tech "common" "ContinuePush")
+(include tech "common" "DecisionWait")
+(include tech "common" "Encode")
+(include tech "common" "FalseVariable")
+(include tech "common" "Fetch")
+(include tech "common" "Fork")
+(include tech "common" "ForkPush")
+(include tech "common" "Halt")
+(include tech "common" "HaltPush")
+(include tech "common" "InitVariable")
+(include tech "common" "Loop")
+(include tech "common" "Mask")
+(include tech "common" "NullAdapt")
+(include tech "common" "Passivator")
+(include tech "common" "PassivatorPush")
+(include tech "common" "PassiveEagerFalseVariable")
+(include tech "common" "PassiveEagerNullAdapt")
+(include tech "common" "PassiveSyncEagerFalseVariable")
+(include tech "common" "Sequence")
+(include tech "common" "SequenceOptimised")
+(include tech "common" "Slice")
+(include tech "common" "Split")
+(include tech "common" "SplitEqual")
+(include tech "common" "Synch")
+(include tech "common" "SynchPull")
+(include tech "common" "SynchPush")
+(include tech "common" "UnaryFunc")
+(include tech "common" "UnaryFuncPush")
+(include tech "common" "Variable")
+(include tech "common" "While")
+(include tech "common" "WireFork")
+
+(include tech "common" "BuiltinVariable")

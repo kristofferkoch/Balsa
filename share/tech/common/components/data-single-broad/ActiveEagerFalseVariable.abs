@@ -1,0 +1,43 @@
+(defines
+	(PPstyle (assoc "PP" style-options))
+	(PPstyle (if PPstyle (cdr PPstyle) "ovlp"))
+	(FVstyle (if (= PPstyle "conv") ("FV" . "conv") (assoc "FV" style-options)))
+	(FVstyle (if FVstyle (cdr FVstyle) "ovlp"))
+)
+(nodes
+	("writeAck" 1 0 1)
+	("data" (param "width") 0 1)
+	("ackWrite" 1 0 1)
+)
+(gates
+	(case FVstyle
+		(("ovlp")
+			(cell "t-element" (req "trigger") (node "writeAck") (req "signal") (ack "signal"))
+		)
+		(else
+			(s-element (req "trigger") (node "writeAck") (req "signal") (ack "signal"))
+		)
+	)
+	(c-element (ack "trigger") (node "writeAck") (ack "write"))
+	; data read ports
+	(cell "assym-c-element"
+		(combine (ack (each "read")))
+		(combine (req (each "read")))
+		(combine (dup (param "readPortCount") (node "ackWrite")))
+	)
+	(if (and suggest-buffers (> (param "readPortCount") 2))
+			(gates
+				(cell "suggested-buffer" (node "data") (data "write"))
+				(cell "suggested-buffer" (node "ackWrite") (ack "write"))
+			)
+			(gates
+				(connect (data "write") (node "data"))
+				(connect (ack "write") (node "ackWrite"))
+			)
+	)
+	
+	(macro single-rail-connect-read-ports (param "width") (param "readPortCount") (param "specification") "data")
+)
+(connections
+	(connect (req "trigger") (req "write"))
+)

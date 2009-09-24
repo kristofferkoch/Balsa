@@ -1,0 +1,9 @@
+import [types]
+
+-- Numeric constants
+constant zero = 0
+constant ten = 10
+constant ten_in_32_bits = 10 : 32 bits
+
+-- Non numeric constants
+constant some_record_constant = record_type {0, 0, 1}

@@ -1,0 +1,20 @@
+(primitive-part
+    "PassiveEagerNullAdapt"
+    (parameters
+        ("inputWidth" (named-type "cardinal"))
+    )
+    (ports
+        (sync-port "trigger" passive)
+        (port "inp" passive input (numeric-type #f (param "inputWidth")))
+        (sync-port "signal" active)
+    )
+    (symbol
+        (centre-string "peNA")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/PassiveEagerNullAdapt"))
+        (style "dual_b" (include tech "common" "data-dual/PassiveEagerNullAdapt"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/PassiveEagerNullAdapt"))
+        (style "four_e_e" (include tech "common" "data-single-early/NullAdapt"))
+    )
+)

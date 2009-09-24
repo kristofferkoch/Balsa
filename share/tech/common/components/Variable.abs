@@ -1,0 +1,22 @@
+(primitive-part
+    "Variable"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("readPortCount" (named-type "cardinal"))
+        ("name" (string) not-used)
+				("specification" (string))
+    )
+    (ports
+        (port "write" passive input (numeric-type #f (param "width")))
+        (arrayed-port "read" passive output (variable-array-type (numeric-type #f (param "width")) 0 (param "readPortCount") (param "specification")) 0 (param "readPortCount"))
+    )
+    (symbol
+        (centre-string (param "name"))
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Variable"))
+        (style "dual_b" (include tech "common" "data-dual/Variable"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Variable"))
+        (style "four_e_e" (include tech "common" "data-single-early/Variable"))
+    )
+)

@@ -1,0 +1,19 @@
+(primitive-part
+    "Sequence"
+    (parameters
+        ("outputCount" (named-type "cardinal"))
+    )
+    (ports
+        (sync-port "activate" passive)
+        (arrayed-sync-port "activateOut" active 0 (param "outputCount"))
+    )
+    (symbol
+        (centre-string ";")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Sequence"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Sequence"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Sequence"))
+        (style "four_e_e" (include tech "common" "ctrl-early/Sequence"))
+    )
+)

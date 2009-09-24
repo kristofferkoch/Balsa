@@ -1,0 +1,20 @@
+(primitive-part
+    "InitVariable"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("readPortCount" (named-type "cardinal"))
+        ("initValue" (numeric-type #f (param "width")))
+        ("name" (string) not-used)
+    )
+    (ports
+        (port "write" passive input (numeric-type #f (param "width")))
+        (sync-port "init" passive)
+        (arrayed-port "read" passive output (numeric-type #f (param "width")) 0 (param "readPortCount"))
+    )
+    (symbol
+        (centre-string (string-append (param "name") "init: " (number->string (param "initValue"))))
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/InitVariable"))
+    )
+)

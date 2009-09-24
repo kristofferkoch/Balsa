@@ -1,0 +1,19 @@
+(primitive-part
+    "Constant"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("value" (numeric-type #f (param "width")))
+    )
+    (ports
+        (port "out" passive output (numeric-type #f (param "width")))
+    )
+    (symbol
+        (centre-string (param "value"))
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Constant"))
+        (style "dual_b" (include tech "common" "data-dual/Constant"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Constant"))
+        (style "four_e_e" (include tech "common" "data-single-broad/Constant"))
+    )
+)

@@ -1,0 +1,19 @@
+(primitive-part
+    "Synch"
+    (parameters
+        ("inputCount" (named-type "cardinal"))
+    )
+    (ports
+        (arrayed-sync-port "inp" passive 0 (param "inputCount"))
+        (sync-port "out" active)
+    )
+    (symbol
+        (centre-string ".(s)")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Synch"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Synch"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Synch"))
+        (style "four_e_e" (include tech "common" "ctrl-broad/Synch"))
+    )
+)

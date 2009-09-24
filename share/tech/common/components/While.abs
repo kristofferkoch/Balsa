@@ -1,0 +1,19 @@
+(primitive-part
+    "While"
+    (parameters
+    )
+    (ports
+        (sync-port "activate" passive)
+        (port "guard" active input (numeric-type #f 1))
+        (sync-port "activateOut" active)
+    )
+    (symbol
+        (centre-string "do")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/While"))
+        (style "dual_b" (include tech "common" "data-dual/While"))
+        (style "one_of_2_4" (include tech "common" "data-dual/While"))
+        (style "four_e_e" (include tech "common" "data-single-early/While"))
+    )
+)

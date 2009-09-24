@@ -1,0 +1,20 @@
+(primitive-part
+    "ActiveEagerNullAdapt"
+    (parameters
+        ("inputWidth" (named-type "cardinal"))
+    )
+    (ports
+        (sync-port "trigger" passive)
+        (port "inp" active inp (numeric-type #f (param "inputWidth")))
+        (sync-port "signal" active)
+    )
+    (symbol
+        (centre-string "aeNA")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/ActiveEagerNullAdapt"))
+        (style "dual_b" (include tech "common" "data-dual/ActiveEagerNullAdapt"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/ActiveEagerNullAdapt"))
+        (style "four_e_e" (include tech "common" "data-single-early/NullAdapt"))
+    )
+)

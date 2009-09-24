@@ -1,0 +1,22 @@
+(primitive-part
+    "Split"
+    (parameters
+        ("inputWidth" (named-type "cardinal"))
+        ("LSOutputWidth" (named-type "cardinal"))
+        ("MSOutputWidth" (named-type "cardinal"))
+    )
+    (ports
+        (port "inp" passive input (numeric-type #f (param "inputWidth")))
+        (port "LSOut" active output (numeric-type #f (param "LSOutputWidth")))
+        (port "MSOut" active output (numeric-type #f (param "MSOutputWidth")))
+    )
+    (symbol
+        (centre-string ">><<")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Split"))
+        (style "dual_b" (include tech "common" "data-dual/Split"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Split"))
+        (style "four_e_e" (include tech "common" "data-single-broad/Split"))
+    )
+)

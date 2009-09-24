@@ -1,0 +1,18 @@
+(primitive-part
+    "Loop"
+    (parameters
+    )
+    (ports
+        (sync-port "activate" passive)
+        (sync-port "activateOut" active)
+    )
+    (symbol
+        (centre-string "*")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Loop"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Loop"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Loop"))
+        (style "four_e_e" (include tech "common" "ctrl-broad/Loop"))
+    )
+)

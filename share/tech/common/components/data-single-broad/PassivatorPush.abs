@@ -1,0 +1,66 @@
+(defines
+	(PPstyle (assoc "PP" style-options))
+	(PPstyle (if PPstyle (cdr PPstyle) "broad"))
+)
+(nodes
+	("stl" (case PPstyle (("broad") 1) (else 0)) 0 1)
+	("lti" (case PPstyle (("broad") 1) (else 0)) 0 1)
+	("ltb" (case PPstyle (("broad") 1) (else 0)) 0 1)
+	("brin" (case PPstyle (("broad") 1) (else 0)) 0 1)
+	("lrin" (case PPstyle (("broad") 1) (else 0)) 0 1)
+	("ldata" (case PPstyle (("broad") (param "width")) (else 0)) 0 1)
+)
+(gates
+	(case PPstyle
+		(("conv")
+			(c-element (ack "inp") (req "inp") (req (each "out")))
+			(if (and suggest-buffers (> (param "outputCount") 2))
+				(gates
+					(cell "suggested-buffer"
+						(combine (data (each "out")))
+						(combine (dup (param "outputCount") (data "inp")))
+					)
+					(cell "suggested-buffer"
+						(combine (ack (each "out")))
+						(combine (dup (param "outputCount") (ack "inp")))
+					)
+				)
+				(gates
+					(connect (data "inp") (data (each "out")))
+					(connect (ack "inp") (ack (each "out")))
+				)
+			)
+		)
+		(else
+			(c-element (node "lti") (req (each "out")))
+			(cell "suggested-buffer" (node "ltb") (node "lti"))
+			(latch
+				(combine (dup (param "width") (node "ltb")))
+				(data "inp")
+				(node "ldata")
+			)
+			(c-element (node "brin") (req "inp") (node "lti"))
+			(c-element (node "lrin") (node "brin") (node "ltb"))
+			(or (ack "inp") (node "lrin") (node "brin"))
+			(and (node "stl") (node "lrin") (node "brin"))
+			(if (and suggest-buffers (> (param "outputCount") 2))
+				(gates
+					(cell "suggested-buffer"
+						(combine (data (each "out")))
+						(combine (dup (param "outputCount") (node "ldata")))
+					)
+					(cell "suggested-buffer"
+						(combine (ack (each "out")))
+						(combine (dup (param "outputCount") (node "stl")))
+					)
+				)
+				(gates
+					(connect (node "ldata") (data (each "out")))
+					(connect (node "stl") (ack (each "out")))
+				)
+			)
+		)
+	)
+)
+(connections
+)

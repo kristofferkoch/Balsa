@@ -1,0 +1,20 @@
+(primitive-part
+    "Arbiter"
+    (parameters
+    )
+    (ports
+        (sync-port "inpA" passive)
+        (sync-port "inpB" passive)
+        (sync-port "outA" active)
+        (sync-port "outB" active)
+    )
+    (symbol
+        (centre-string "Arb")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Arbiter"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Arbiter"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Arbiter"))
+        (style "four_e_e" (include tech "common" "ctrl-early/Arbiter"))
+    )
+)

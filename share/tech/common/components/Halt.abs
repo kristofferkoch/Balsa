@@ -1,0 +1,17 @@
+(primitive-part
+    "Halt"
+    (parameters
+    )
+    (ports
+        (sync-port "inp" passive)
+    )
+    (symbol
+        (centre-string "stop")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Halt"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Halt"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Halt"))
+        (style "four_e_e" (include tech "common" "ctrl-broad/Halt"))
+    )
+)

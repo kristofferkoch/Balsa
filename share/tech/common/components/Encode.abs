@@ -1,0 +1,21 @@
+(primitive-part
+    "Encode"
+    (parameters
+        ("outputWidth" (named-type "cardinal"))
+        ("inputCount" (named-type "cardinal"))
+        ("specification" (string))
+    )
+    (ports
+        (arrayed-sync-port "inp" passive 0 (param "inputCount"))
+        (port "out" active output (numeric-type #f (param "outputWidth")))
+    )
+    (symbol
+        (centre-string "@" (param "specification"))
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Encode"))
+        (style "dual_b" (include tech "common" "data-dual/Encode"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Encode"))
+        (style "four_e_e" (include tech "common" "data-single-early/Encode"))
+    )
+)

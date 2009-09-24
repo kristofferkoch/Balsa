@@ -1,0 +1,21 @@
+(primitive-part
+    "Case"
+    (parameters
+        ("inputWidth" (named-type "cardinal"))
+        ("outputCount" (named-type "cardinal"))
+        ("specification" (string))
+    )
+    (ports
+        (port "inp" passive input (numeric-type #f (param "inputWidth")))
+        (arrayed-sync-port "activateOut" active 0 (param "outputCount"))
+    )
+    (symbol
+        (centre-string "@" (param "specification"))
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Case"))
+        (style "dual_b" (include tech "common" "data-dual/Case"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Case"))
+        (style "four_e_e" (include tech "common" "data-single-early/Case"))
+    )
+)

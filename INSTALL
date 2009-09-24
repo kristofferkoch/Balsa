@@ -1,0 +1,150 @@
+
+ |_  _ |  _ _   [ The Balsa Synthesis System ]
+ |_)(_\|_/ (_\  Version 3.5
+
+    (C) 1995-2006 School of Computer Science,
+    The University of Manchester,
+    Manchester
+    M13 9PL, UK
+    email: balsa@cs.man.ac.uk
+
+
+The Balsa toolkit is made of the following components:
+ * Balsa Core (required): compiler, GUI, command-line simulation
+ * Visualisation System (optional): Handshake circuit rendering, graphical simulation tool
+ * Synthesis Backend (optional)
+ * User Manual (optional)
+
+It is advised to install all the packages.
+
+
+====================================================================================
+==  1/ To install Balsa 3.5 from the binary distribution (The tarball includes    ==
+==  all the packages plus the Verilog Cver simulator (version 1.10h without bug)  ==
+==  and the Icarus Verilog simulator (version 0.8)):                              ==
+====================================================================================
+Get:
+	ftp://ftp.cs.man.ac.uk/pub/amulet/balsa/3.5/balsa-3.5-full-<arch>.tar.bz2
+Install it (in /usr/local/balsa for example):
+	cd /usr/local
+	tar xjf balsa-3.5-full-<arch>.tar.bz2
+Add these definitions to your shell configurations:
+	PATH=/usr/local/balsa/bin:${PATH}
+	LD_LIBRARY_PATH=/usr/local/balsa/lib:${LD_LIBRARY_PATH}
+	export PATH LD_LIBRARY_PATH
+The following environment variables might also be needed (change /usr/local/balsa to your chosen installation directory):
+	export BALSAHOME=/usr/local/balsa
+	export WAVE_SHARE_DIR=/usr/local/balsa/share/gtkwave
+	export WAVE_READER_PATH=/usr/local/balsa/lib/gtkwave
+
+====================================================================================
+==  or 2/ To install Balsa 3.5 from source:                                     ==
+====================================================================================
+Get:
+
+  -------------------------
+ -- Balsa Core (required) --
+  -------------------------
+The Balsa package:
+ftp://ftp.cs.man.ac.uk/pub/amulet/balsa/3.5/balsa-3.5.tar.gz
+
+Requirements:
+GCC >= 3.2 
+GLIB >= 1.2.0
+GTK >= 1.2.0
+GNU libgmp multiprecision arithmetic library >= 4.1
+GNU guile Scheme interpreter >= 1.3
+
+  -----------------------------------
+ -- Visualisation System (optional) --
+  -----------------------------------
+GTKWave:
+(Requirements: libxml2)
+ftp://ftp.cs.man.ac.uk/pub/amulet/gtkwave/2.0/gtkwave-2.0.0pre5.tar.gz
+
+Dot (from Graphviz):
+ftp://ftp.cs.man.ac.uk/pub/amulet/balsa/other-software/graphviz-2.2.tar.gz
+
+  --------------------------------
+ -- Synthesis Backend (optional) --
+  --------------------------------
+Espresso:
+ftp://ftp.cs.man.ac.uk/pub/amulet/balsa/other-software/espresso-ab-1.0.tar.gz
+
+Example technology package:
+ftp://ftp.cs.man.ac.uk/pub/amulet/balsa/3.5/balsa-tech-example-3.5.tar.gz
+
+Verilog simulators wrapper:
+ Please read INSTALL_VerilogSimulators
+
+For technology packages to support real cell libraries, please contact us (balsa@cs.man.ac.uk).
+
+  --------------------------
+ -- User Manual (optional) --
+  --------------------------
+The Balsa User Manual:
+ftp://ftp.cs.man.ac.uk/pub/amulet/balsa/3.5/BalsaManual3.5.pdf
+
+
+
+******************************  INSTALLATION  ******************************
+
+1) cd to a convenient build directory and get all the packages listed above
+
+2) Choose a handy installation directory, eg. /usr/local/balsa, and add that
+    directory to your shell paths:
+	PATH=/usr/local/balsa/bin:${PATH}
+	LD_LIBRARY_PATH=/usr/local/balsa/lib:${LD_LIBRARY_PATH}
+   For MacOSX, use:
+	PATH=/usr/local/balsa/bin:${PATH}
+	export LDFLAGS="${LDFLAGS} -L/usr/local/balsa/lib"
+	export CFLAGS="-O2 -g -Wall -I/usr/local/balsa/include"
+
+3) Install the Balsa package:
+	tar xzf balsa-3.5.tar.gz
+	cd balsa-3.5
+	./configure --prefix=/usr/local/balsa
+	make install
+	cd ..
+
+4) Install the other optional packages:
+	tar xzf gtkwave-2.0.0pre5.tar.gz
+	cd gtkwave-2.0.0pre5
+	./configure --prefix=/usr/local/balsa
+	make install
+	cd ..
+        tar xzf espresso-ab-1.0.tar.gz
+	cd espresso-ab-1.0
+	./configure --prefix=/usr/local/balsa
+	make install
+	cd ..
+
+4b) Install dot if you want the visualisation system
+		* Either from the graphviz package (better)
+	tar xzf graphviz-2.2.tar.gz
+	cd graphviz-2.2
+	./configure --prefix=/usr/local/balsa
+	make install
+	cd ..
+		* Or from the binary version (deprecated)
+	#chmod +x dot-<arch>-1.10
+	#cp dot-<arch>-1.10 /usr/local/balsa/bin/dot
+
+5) Check that the executables gtkwave, espresso and dot are visible in the path
+	which gtkwave
+	which espresso
+	which dot
+
+6) Check that the executable balsa-config is visible
+	which balsa-config
+
+7) Install the example technology package
+	tar xzf balsa-tech-example-3.5.tar.gz
+	cd balsa-tech-example-3.5
+	./configure   # Note, no prefix!
+	# Configure should find the Balsa installation
+	make install
+	cd ..
+
+8) If you need Verilog simulation, please continue with the
+instructions in INSTALL_VerilogSimulators

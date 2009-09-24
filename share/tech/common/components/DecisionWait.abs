@@ -1,0 +1,20 @@
+(primitive-part
+    "DecisionWait"
+    (parameters
+        ("portCount" (named-type "cardinal"))
+    )
+    (ports
+        (sync-port "activate" passive)
+        (arrayed-sync-port "inp" passive 0 (param "portCount"))
+        (arrayed-sync-port "out" active 0 (param "portCount"))
+    )
+    (symbol
+        (centre-string "DW")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/DecisionWait"))
+        (style "dual_b" (include tech "common" "ctrl-broad/DecisionWait"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/DecisionWait"))
+        (style "four_e_e" (include tech "common" "ctrl-early/DecisionWait"))
+    )
+)

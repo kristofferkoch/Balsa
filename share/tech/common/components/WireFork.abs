@@ -1,0 +1,19 @@
+(primitive-part
+    "WireFork"
+    (parameters
+        ("outputCount" (named-type "cardinal"))
+    )
+    (ports
+        (sync-port "inp" passive)
+        (arrayed-sync-port "out" active 0 (param "outputCount"))
+    )
+    (symbol
+        (centre-string "W^")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/WireFork"))
+        (style "dual_b" (include tech "common" "ctrl-broad/WireFork"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/WireFork"))
+        (style "four_e_e" (include tech "common" "ctrl-broad/WireFork"))
+    )
+)

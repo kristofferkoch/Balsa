@@ -1,0 +1,21 @@
+(primitive-part
+    "CombineEqual"
+    (parameters
+        ("outputWidth" (named-type "cardinal"))
+        ("inputWidth" (named-type "cardinal"))
+        ("inputCount" (named-type "cardinal"))
+    )
+    (ports
+        (port "out" passive output (numeric-type #f (param "outputWidth")))
+        (arrayed-port "inp" active input (numeric-type #f (param "inputWidth")) 0 (param "inputCount"))
+    )
+    (symbol
+        (centre-string "<<>>")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/CombineEqual"))
+        (style "dual_b" (include tech "common" "data-dual/CombineEqual"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/CombineEqual"))
+        (style "four_e_e" (include tech "common" "data-single-broad/CombineEqual"))
+    )
+)

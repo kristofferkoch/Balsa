@@ -1,0 +1,29 @@
+/* XPM */
+static char *update_xpm[] = {
+/* width height num_colors chars_per_pixel */
+"    15    19        3            1",
+/* colors */
+". c #000000",
+"a c #2020C0",
+"c c none",
+/* pixels */
+"ccccccccccccccc",
+"ccc.aaacccccccc",
+"cc.acccaacccacc",
+"ccaccccccacaacc",
+"ccacccccccaaacc",
+"ccaccccccaaaacc",
+"cc.accccaaaaacc",
+"ccccccccccccccc",
+"ccaaaaacccca.cc",
+"ccaaaaccccccacc",
+"ccaaacccccccacc",
+"ccaacaccccccacc",
+"ccacccaaccca.cc",
+"ccccccccaaa.ccc",
+"ccccccccccccccc",
+"ccccccccccccccc",
+"ccccccccccccccc",
+"ccccccccccccccc",
+"ccccccccccccccc"
+};

@@ -1,0 +1,91 @@
+procedure forever_loop (
+	sync forever
+) is
+begin
+	loop
+		sync forever
+	end
+end
+
+procedure while_guards_loop (
+	sync wg_mid1, wg_mid2
+) is
+	variable guard, guard2 : bit
+begin
+	guard := 1 || guard2 := 1;
+
+	loop
+	while
+	  guard then
+		sync wg_mid1
+	| guard2 then
+		sync wg_mid2
+	end
+end
+
+procedure while_guards_also_loop (
+	sync wga_mid1, wga_mid2, wga_post
+) is
+	variable guard, guard2 : bit
+begin
+	guard := 1 || guard2 := 1;
+
+	loop
+	while
+	  guard then
+		sync wga_mid1
+	| guard2 then
+		sync wga_mid2
+	also
+		sync wga_post
+	end
+end
+
+procedure command_while_expr_loop (
+	sync cwe_mid
+) is
+	variable guard : bit
+begin
+	guard := 1;
+
+	loop
+		sync cwe_mid
+	while guard
+	end
+end
+
+procedure command_while_guards_loop (
+	sync cwg_pre, cwg_mid1, cwg_mid2
+) is
+	variable guard, guard2 : bit
+begin
+	guard := 1 || guard2 := 1;
+
+	loop
+		sync cwg_pre
+	while
+	  guard then
+		sync cwg_mid1
+	| guard2 then
+		sync cwg_mid2
+	end
+end
+
+procedure command_while_guards_also_loop (
+	sync cwga_pre, cwga_mid1, cwga_mid2, cwga_post
+) is
+	variable guard, guard2 : bit
+begin
+	guard := 1 || guard2 := 1;
+
+	loop
+		sync cwga_pre
+	while
+	  guard then
+		sync cwga_mid1
+	| guard2 then
+		sync cwga_mid2
+	also
+		sync cwga_post
+	end
+end

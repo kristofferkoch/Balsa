@@ -1,0 +1,14 @@
+#! /bin/sh
+set -x
+aclocal
+
+GLIBTOOLIZE=`which glibtoolize`
+if [ -r "${GLIBTOOLIZE}" ] ; then
+  glibtoolize --force --copy
+else
+  libtoolize --force --copy
+fi
+
+autoheader
+automake --add-missing --copy
+autoconf

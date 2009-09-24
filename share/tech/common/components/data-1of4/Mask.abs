@@ -1,0 +1,82 @@
+(defines
+	(offset (find-set-bit (param "mask") 0)) ;; base of mask
+	(width (pop-count (param "mask"))) ;; cardinality of mask
+	(plural (> (param "outputWidth") 1))	;; not single bit
+	(half-offset (quotient offset 2)) ;;base of req.. slices
+	(even-width (quotient width 2))	
+	(odd-width (quotient (+ width 1) 2))
+	(even-offset (= (modulo offset 2) 0))
+)
+(nodes
+	("n0r" odd-width 0 1)
+	("n1r" odd-width 0 1)
+	("n2r" odd-width 0 1)
+	("n3r" odd-width 0 1)
+	("l0r" odd-width 0 1)
+	("l1r" odd-width 0 1)
+	("h0r" odd-width 0 1)
+	("h1r" odd-width 0 1)
+	
+)
+(gates
+	(connect (req "out") (req "inp"))
+	(if even-offset
+		(gates
+			(if plural ;; if output not length one
+				(gates
+					(connect (slice half-offset even-width (ack0 "inp")) (slice 0 even-width (ack0 "out")))
+					(connect (slice half-offset even-width (ack1 "inp")) (slice 0 even-width (ack1 "out")))
+					(connect (slice half-offset even-width (ack2 "inp")) (slice 0 even-width (ack2 "out")))
+					(connect (slice half-offset even-width (ack3 "inp")) (slice 0 even-width (ack3 "out")))
+				)
+			)
+			(if odd-width
+				(gates ;; Extract low bit from end of mask
+					(or (slice even-width 1 (ack0 "out"))
+						(slice (+ half-offset even-width) 1 (ack0 "inp")) (slice (+ half-offset even-width) 1 (ack2 "inp")))
+					(or (slice even-width 1 (ack1 "out"))
+						(slice (+ half-offset even-width) 1 (ack1 "inp")) (slice (+ half-offset even-width) 1 (ack3 "inp")))
+				)
+			)
+		)
+		(gates ;;odd offset
+			(if plural ;; if output not length one
+				(gates
+					(connect (slice half-offset odd-width (ack0 "inp")) (node "n0r"))
+					(connect (slice half-offset odd-width (ack1 "inp")) (node "n1r"))
+					(connect (slice half-offset odd-width (ack2 "inp")) (node "n2r"))
+					(connect (slice half-offset odd-width (ack3 "inp")) (node "n3r"))
+		
+					(or (node "l0r") (node "n0r") (node "n2r"))
+					(or (node "l1r") (node "n1r") (node "n3r")) ;; all lower bits
+					(or (node "h0r") (node "n0r") (node "n1r"))
+					(or (node "h1r") (node "n2r") (node "n3r")) ;; all upper bits
+					
+					(c-element (slice 0 even-width (ack0 "out"))
+						(slice 0 even-width (node "h0r")) (slice 1 even-width (node "l0r")))	
+					(c-element (slice 0 even-width (ack1 "out")) 
+						(slice 0 even-width (node "h1r")) (slice 1 even-width (node "l0r")))
+					(c-element (slice 0 even-width (ack2 "out")) 
+						(slice 0 even-width (node "h0r")) (slice 1 even-width (node "l1r")))
+					(c-element (slice 0 even-width (ack3 "out")) 
+						(slice 0 even-width (node "h1r")) (slice 1 even-width (node "l1r")))
+				)
+				(gates
+					(connect (slice half-offset odd-width (ack0 "inp")) (node "n0r"))
+					(connect (slice half-offset odd-width (ack1 "inp")) (node "n1r"))
+					(connect (slice half-offset odd-width (ack2 "inp")) (node "n2r"))
+					(connect (slice half-offset odd-width (ack3 "inp")) (node "n3r"))
+					(or (node "h0r") (node "n0r") (node "n1r"))
+					(or (node "h1r") (node "n2r") (node "n3r")) ;; all upper bits
+				)
+			)
+			(if odd-width
+				(gates ;; Extract high bit from end of mask
+					(connect (slice even-width 1 (node "h0r")) (slice even-width 1 (ack0 "out")))
+					(connect (slice even-width 1 (node "h1r")) (slice even-width 1 (ack1 "out")))
+				)
+			)
+		)
+	)
+)
+(connections)

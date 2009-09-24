@@ -1,0 +1,13 @@
+(nodes
+	("inpAck" 1 0 1)
+)
+(gates
+	(c-element (req "out") (req (each "inp")))
+)
+(connections
+	(if (and suggest-buffers (> (param "inputCount") 4))
+		(cell "suggested-buffer" (node "inpAck") (ack "out"))
+		(connect (ack "out") (node "inpAck"))
+	)
+	(connect (node "inpAck") (ack (each "inp")))
+)

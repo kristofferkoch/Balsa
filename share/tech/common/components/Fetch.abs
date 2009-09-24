@@ -1,0 +1,21 @@
+(primitive-part
+    "Fetch"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("broad" (named-type "boolean"))
+    )
+    (ports
+        (sync-port "activate" passive)
+        (port "inp" active input (numeric-type #f (param "width")))
+        (port "out" active output (numeric-type #f (param "width")))
+    )
+    (symbol
+        (centre-string "->")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Fetch"))
+        (style "dual_b" (include tech "common" "data-dual/Fetch"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Fetch"))
+        (style "four_e_e" (include tech "common" "data-single-early/Fetch"))
+    )
+)

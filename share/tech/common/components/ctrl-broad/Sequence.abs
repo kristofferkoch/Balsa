@@ -1,0 +1,15 @@
+(nodes
+	("sreq" (param "outputCount") 0 1)
+)
+(gates
+	(s-element (slice 0 (- (param "outputCount") 1) (node "sreq"))
+		(slice 1 (- (param "outputCount") 1) (node "sreq"))
+		(combine (req (bundles "activateOut" 0 (- (param "outputCount") 1))))
+		(combine (ack (bundles "activateOut" 0 (- (param "outputCount") 1))))
+	)
+	(connect (req "activate") (slice 0 1 (node "sreq")))
+	(connect (slice (- (param "outputCount") 1) 1 (node "sreq"))
+		(req (bundle "activateOut" (- (param "outputCount") 1)))
+	)
+	(connect (ack (bundle "activateOut" (- (param "outputCount") 1))) (ack "activate")) 
+)

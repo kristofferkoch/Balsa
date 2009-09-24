@@ -1,0 +1,17 @@
+(primitive-part
+    "Continue"
+    (parameters
+    )
+    (ports
+        (sync-port "inp" passive)
+    )
+    (symbol
+        (centre-string "run")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Continue"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Continue"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Continue"))
+        (style "four_e_e" (include tech "common" "ctrl-broad/Continue"))
+    )
+)

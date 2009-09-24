@@ -1,0 +1,18 @@
+(primitive-part
+    "Passivator"
+    (parameters
+        ("count" (named-type "cardinal"))
+    )
+    (ports
+        (arrayed-sync-port "inp" passive 0 (param "count"))
+    )
+    (symbol
+        (centre-string ".")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "ctrl-broad/Passivator"))
+        (style "dual_b" (include tech "common" "ctrl-broad/Passivator"))
+        (style "one_of_2_4" (include tech "common" "ctrl-broad/Passivator"))
+        (style "four_e_e" (include tech "common" "ctrl-broad/Passivator"))
+    )
+)

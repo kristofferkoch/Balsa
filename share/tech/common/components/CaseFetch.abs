@@ -1,0 +1,23 @@
+(primitive-part
+    "CaseFetch"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("indexWidth" (named-type "cardinal"))
+        ("inputCount" (named-type "cardinal"))
+        ("specification" (string))
+    )
+    (ports
+        (port "out" passive output (numeric-type #f (param "width")))
+        (port "index" active input (numeric-type #f (param "indexWidth")))
+        (arrayed-port "inp" active input (numeric-type #f (param "width")) 0 (param "inputCount"))
+    )
+    (symbol
+        (centre-string "@->" (param "specification"))
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/CaseFetch"))
+        (style "dual_b" (include tech "common" "data-dual/CaseFetch"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/CaseFetch"))
+        (style "four_e_e" (include tech "common" "data-single-early/CaseFetch"))
+    )
+)

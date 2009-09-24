@@ -1,0 +1,7 @@
+(nodes)
+(gates)
+(connections
+	(connect (req "out") (req "inp"))
+	(connect (ack "inp") (ack "out"))
+	(connect (filter (param "mask") (data "inp")) (data "out"))
+)

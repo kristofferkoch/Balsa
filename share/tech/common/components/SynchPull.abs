@@ -1,0 +1,20 @@
+(primitive-part
+    "SynchPull"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("outputCount" (named-type "cardinal"))
+    )
+    (ports
+        (arrayed-port "pout" passive output (numeric-type #f (param "width")) 0 (param "outputCount"))
+        (port "inp" active input (numeric-type #f (param "width")))
+    )
+    (symbol
+        (centre-string ".(s)")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/SynchPull"))
+        (style "dual_b" (include tech "common" "data-dual/SynchPull"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/SynchPull"))
+        (style "four_e_e" (include tech "common" "data-single-broad/SynchPull"))
+    )
+)

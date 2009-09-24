@@ -1,0 +1,20 @@
+(primitive-part
+    "PassivatorPush"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("outputCount" (named-type "cardinal"))
+    )
+    (ports
+        (arrayed-port "out" passive output (numeric-type #f (param "width")) 0 (param "outputCount"))
+        (port "inp" passive input (numeric-type #f (param "width")))
+    )
+    (symbol
+        (centre-string ".")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/PassivatorPush"))
+        (style "dual_b" (include tech "common" "data-dual/PassivatorPush"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/PassivatorPush"))
+        (style "four_e_e" (include tech "common" "data-single-early/PassivatorPush"))
+    )
+)

@@ -1,0 +1,21 @@
+(primitive-part
+    "SplitEqual"
+    (parameters
+        ("inputWidth" (named-type "cardinal"))
+        ("outputWidth" (named-type "cardinal"))
+        ("outputCount" (named-type "cardinal"))
+    )
+    (ports
+        (port "inp" passive input (numeric-type #f (param "inputWidth")))
+        (arrayed-port "out" active output (numeric-type #f (param "outputWidth")) 0 (param "outputCount"))
+    )
+    (symbol
+        (centre-string ">><<")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/SplitEqual"))
+        (style "dual_b" (include tech "common" "data-dual/SplitEqual"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/SplitEqual"))
+        (style "four_e_e" (include tech "common" "data-single-broad/SplitEqual"))
+    )
+)

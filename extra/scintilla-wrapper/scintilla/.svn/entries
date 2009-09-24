@@ -1,0 +1,140 @@
+8
+
+dir
+1279
+file:///home/amulinks/cvs/subversion/amutools/balsa_package/trunk/balsa/extra/scintilla-wrapper/scintilla
+file:///home/amulinks/cvs/subversion/amutools/balsa_package
+
+
+
+2006-11-01T14:25:54.084509Z
+887
+janinl
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+ee507ba5-d0e6-0310-9cd7-8a04d6c7d1f2
+
+zipsrc.bat
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+80fa78387569fb20cf51ae1561d7c8d7
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+
+License.txt
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+9621b5ad9c9cf597768e799ddb0c641a
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+
+win32
+dir
+
+delbin.bat
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+092b7df1586d73308a9ac29e5a790058
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+
+include
+dir
+
+version.txt
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+2aca52dbf01cf8c740b1c722f39cd507
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+
+doc
+dir
+
+gtk
+dir
+
+delcvs.bat
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+104588d76041650fd418bc9bc274f282
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+
+src
+dir
+
+bin
+dir
+
+vcbuild
+dir
+
+tgzsrc
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+0ec9f837b05fa92a4a96739159c98939
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+
+README
+file
+
+
+
+
+2007-12-07T11:27:09.000000Z
+1bbcd95fd1c1b3e22907c465049086fa
+2004-12-17T21:31:06.717271Z
+29
+janinl
+has-props
+

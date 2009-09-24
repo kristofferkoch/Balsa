@@ -1,0 +1,21 @@
+(primitive-part
+    "SynchPush"
+    (parameters
+        ("width" (named-type "cardinal"))
+        ("outputCount" (named-type "cardinal"))
+    )
+    (ports
+        (port "inp" passive input (numeric-type #f (param "width")))
+        (arrayed-port "pout" passive output (numeric-type #f (param "width")) 0 (param "outputCount"))
+        (port "aout" active output (numeric-type #f (param "width")))
+    )
+    (symbol
+        (centre-string ".(s)")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/SynchPush"))
+        (style "dual_b" (include tech "common" "data-dual/SynchPush"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/SynchPush"))
+        (style "four_e_e" (include tech "common" "data-single-broad/SynchPush"))
+    )
+)

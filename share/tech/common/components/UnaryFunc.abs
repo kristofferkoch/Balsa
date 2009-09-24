@@ -1,0 +1,25 @@
+(primitive-part "UnaryFunc"
+	(parameters
+		("outputWidth" (named-type "cardinal"))
+		("inputWidth" (named-type "cardinal"))
+		("op" (named-type "UnaryOperator"))
+		("inputIsSigned" (named-type "boolean"))
+	)
+	(ports
+		(port "out" passive output (numeric-type #f (param "outputWidth")))
+		(port "inp" active input (numeric-type #f (param "inputWidth")))
+	)
+	(symbol
+		(centre-string (case (param "op")
+			(("Invert") "~")
+			(("Negate") "-")
+			(else (param "op"))
+		))
+	)
+	(implementation
+		(style "four_b_rb" (include tech "common" "data-single-broad/UnaryFunc"))
+		(style "dual_b" (include tech "common" "data-dual/UnaryFunc"))
+		(style "one_of_2_4" (include tech "common" "data-1of4/UnaryFunc"))
+		(style "four_e_e" (include tech "common" "data-single-broad/UnaryFunc"))
+	)
+)

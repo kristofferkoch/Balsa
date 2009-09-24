@@ -1,0 +1,18 @@
+(primitive-part
+    "ContinuePush"
+    (parameters
+        ("width" (named-type "cardinal"))
+    )
+    (ports
+        (port "inp" passive input (numeric-type #f (param "width")))
+    )
+    (symbol
+        (centre-string "run")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/ContinuePush"))
+        (style "dual_b" (include tech "common" "data-dual/ContinuePush"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/ContinuePush"))
+        (style "four_e_e" (include tech "common" "data-single-broad/ContinuePush"))
+    )
+)

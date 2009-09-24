@@ -1,0 +1,21 @@
+(primitive-part
+    "BuiltinVariable"
+    (parameters
+        ("readPortCount" (named-type "cardinal"))
+        ("name" (string) not-used)
+    )
+    (ports
+        (port "write" passive input (numeric-type #f 64))
+        (arrayed-port "read" passive output (numeric-type #f 64) 0 (param "readPortCount")) 
+    )
+    (symbol
+        (centre-string (param "name"))
+    )
+    (implementation
+    	; FIXME
+    	(style "four_b_rb" (include tech "common" "data-single-broad/BuiltinVariable"))
+    	(style "dual_b" (include tech "common" "data-dual/BuiltinVariable"))
+    	(style "one_of_2_4" (include tech "common" "data-1of4/BuiltinVariable"))
+    	(style "four_e_e" (include tech "common" "data-single-early/BuiltinVariable"))
+    )
+)

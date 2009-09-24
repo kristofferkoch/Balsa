@@ -1,0 +1,19 @@
+(primitive-part
+    "PassiveSyncEagerFalseVariable"
+    (parameters
+    )
+    (ports
+        (sync-port "trigger" passive)
+        (sync-port "inp" passive)
+        (sync-port "signal" active)
+    )
+    (symbol
+        (centre-string "peFV")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/PassiveSyncEagerFalseVariable"))
+        (style "dual_b" (include tech "common" "data-dual/PassiveSyncEagerFalseVariable"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/PassiveSyncEagerFalseVariable"))
+        (style "four_e_e" (include tech "common" "data-single-early/FalseVariable"))
+    )
+)

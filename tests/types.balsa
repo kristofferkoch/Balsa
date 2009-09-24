@@ -1,0 +1,47 @@
+
+-- Enumerations, with mixture of explicit and non-explicit values
+type enum_type is enumeration
+	a, b, c = 10, d, e, f = -10, g
+end
+-- with bounding types
+type unsigned_bounded_enum_type is enumeration
+	a, b, c = 10, d, e, f = 8, g
+over 42 bits
+type signed_bounded_enum_type is enumeration
+	a, b, c = 10, d, e, f = -10, g
+over 42 signed bits
+
+-- Records
+type record_type is record
+	a, b : bit;
+	c : 2 bits
+end
+-- with bounding type
+type bounded_record_type is record
+	a, b : bit
+over 12 signed bits
+
+-- Aliases of structurally compared types
+type alias_type is bit
+type array_alias_type is array 2 of bit
+type numeric_type is 2 bits
+
+-- Aliases of declaration-point compared types
+type record_alias is record_type
+
+-- Test these inside a procedure
+procedure type_proc (
+	parameter unnecessary : bit
+) is
+	type enum_type is enumeration a, b, c = 10, d, e, f = -10, g end
+	type unsigned_bounded_enum_type is enumeration a, b, c = 10, d, e, f = 8, g over 42 bits
+	type signed_bounded_enum_type is enumeration a, b, c = 10, d, e, f = -10, g over 42 signed bits
+	type record_type is record a, b : bit; c : 2 bits end
+	type bounded_record_type is record a, b : bit over 12 signed bits
+	type alias_type is bit
+	type array_alias_type is array 2 of bit
+	type numeric_type is 2 bits
+	type record_alias is record_type
+begin
+	continue
+end

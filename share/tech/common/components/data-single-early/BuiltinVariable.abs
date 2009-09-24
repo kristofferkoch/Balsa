@@ -1,0 +1,28 @@
+(nodes
+	("latchEnable" 1 0 1)
+	("writeReq" 1 0 1)
+	("nWriteReq" 1 0 1)
+	("data" 64 0 1)
+)
+(gates
+	;;;(cell "suggested-buffer" (node "writeReq") (req "write"))
+	;;;(cell "suggested-buffer" (ack "write") (node "writeReq"))
+	(s-element
+		(req "write")
+		(ack "write")
+		(node "writeReq")
+		(node "latchEnable")
+	)
+	(cell "suggested-buffer" (node "latchEnable") (node "writeReq"))
+
+	(latch (combine (dup 64 (node "latchEnable"))) (data "write") (node "data"))
+	(connect (node "data") (data (each "read")))
+	(inv (node "nWriteReq") (node "writeReq"))
+	(unarrayed-cell "builtin-unref" (node "nWriteReq") (data "write"))
+)
+(connections
+	(connect (combine (req (each "read"))) (combine (ack (each "read"))))
+	;;; (if (>= (param "readPortCount") 2)
+	;;;	(connect (data (bundle "read" 0)) (data (bundles "read" 1 (- (param "readPortCount") 1))))
+	;;; )
+)

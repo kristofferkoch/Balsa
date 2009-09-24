@@ -1,0 +1,22 @@
+(primitive-part
+    "Combine"
+    (parameters
+        ("outputWidth" (named-type "cardinal"))
+        ("LSInputWidth" (named-type "cardinal"))
+        ("MSInputWidth" (named-type "cardinal"))
+    )
+    (ports
+        (port "out" passive output (numeric-type #f (param "outputWidth")))
+        (port "LSInp" active input (numeric-type #f (param "LSInputWidth")))
+        (port "MSInp" active input (numeric-type #f (param "MSInputWidth")))
+    )
+    (symbol
+        (centre-string "<<>>")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Combine"))
+        (style "dual_b" (include tech "common" "data-dual/Combine"))
+        (style "one_of_2_4" (include tech "common" "data-1of4/Combine"))
+        (style "four_e_e" (include tech "common" "data-single-broad/Combine"))
+    )
+)

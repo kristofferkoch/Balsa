@@ -1,0 +1,14 @@
+(nodes
+	("outReq" 1 0 1)
+)
+(gates
+	(if (and suggest-buffers (> (param "inputWidth" 4)))
+		(cell "suggested-buffer" (node "outReq") (req "out"))
+		(connect (req "out") (node "outReq"))
+	)
+	(connect (node "outReq") (req (each "inp")))
+)
+(connections
+	(connect (combine (ack0 (each "inp"))) (ack0 "out"))
+	(connect (combine (ack1 (each "inp"))) (ack1 "out"))
+)

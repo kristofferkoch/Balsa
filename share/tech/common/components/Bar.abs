@@ -1,0 +1,21 @@
+(primitive-part
+    "Bar"
+    (parameters
+        ("guardCount" (named-type "cardinal"))
+    )
+    (ports
+        (port "guard" passive output (numeric-type #f 1))
+        (sync-port "activate" passive)
+        (arrayed-port "guardInput" active input (numeric-type #f 1) 0 (param "guardCount"))
+        (arrayed-sync-port "activateOut" active 0 (param "guardCount"))
+    )
+    (symbol
+        (centre-string "[]")
+    )
+    (implementation
+        (style "four_b_rb" (include tech "common" "data-single-broad/Bar"))
+        (style "dual_b" (include tech "common" "data-dual/Bar"))
+        (style "one_of_2_4" (include tech "common" "data-dual/Bar"))
+        (style "four_e_e" (include tech "common" "data-single-early/Bar"))
+    )
+)

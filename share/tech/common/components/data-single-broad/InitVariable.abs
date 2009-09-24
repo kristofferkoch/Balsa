@@ -1,0 +1,19 @@
+(nodes
+	("writeReq" 1 0 1)
+	("data" (param "width") 0 1)
+)
+(gates
+	(cell "suggested-buffer" (node "writeReq") (req "write"))
+	(cell "suggested-buffer" (ack "write") (node "writeReq"))
+	;;; (latch (combine (dup (param "width") (node "writeReq"))) (data "write") (data (bundle "read" 0)))
+	(latch (combine (dup (param "width") (node "writeReq"))) (data "write") (node "data"))
+	(connect (node "data") (data (each "read")))
+)
+(connections
+	(connect (combine (req (each "read"))) (combine (ack (each "read"))))
+	;;; (if (>= (param "readPortCount") 2)
+	;;;	(connect (data (bundle "read" 0)) (data (bundles "read" 1 (- (param "readPortCount") 1))))
+	;;; )
+	;;;; FIXME
+	(connect (req "init") (ack "init"))
+)
