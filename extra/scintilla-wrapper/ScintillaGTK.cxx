@@ -2486,6 +2486,11 @@ void ScintillaGTK::ClassInit(GtkObjectClass* object_class, GtkWidgetClass *widge
 #endif
 #define MARSHAL_ARGUMENTS GTK_TYPE_INT, GTK_TYPE_POINTER
 
+#ifdef GTK_SIGNAL_OFFSET
+   #undef GTK_SIGNAL_OFFSET
+   #define GTK_SIGNAL_OFFSET(type, member) __builtin_offsetof (type, member)
+#endif
+
 static void scintilla_class_init(ScintillaClass *klass) {
 	GtkObjectClass *object_class = (GtkObjectClass*) klass;
 	GtkWidgetClass *widget_class = (GtkWidgetClass*) klass;
