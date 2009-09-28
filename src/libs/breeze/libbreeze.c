@@ -485,6 +485,12 @@ void initialiseBreezePartChannelsChannel (struct BreezePartChannelsChannel *chan
     }
     free (node);
 
+    if (channel->position == NULL) 
+    {
+      fprintf (stderr, "Error in initialiseBreezePartChannelsChannel: missing position (at ...) for port\n");
+      exit (EXIT_FAILURE);
+    }
+
     channel->initialised = TRUE;
 }
 
