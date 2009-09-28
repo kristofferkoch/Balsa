@@ -186,7 +186,7 @@ void printfConsole_nobringtofront (char *message)
     if (MessagesText)
         gtk_text_insert (GTK_TEXT (MessagesText), MessagesFont, &Blue, NULL, message, -1);
     else
-        printf (message);
+      printf ("%s", message);
 }
 
 void printfConsole (char *message)

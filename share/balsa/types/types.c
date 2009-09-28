@@ -31,7 +31,7 @@ static void Types_LongestEnumerationElement (BuiltinFunction * function, Builtin
     if (!instance->userInstanceData)
     {
         BalsaType *type = instance->parameters[0]->info.type;
-        unsigned nameLength = 0;
+        size_t nameLength = 0;
         int i;
 
         if (type->nature != BalsaEnumerationType)
@@ -49,7 +49,7 @@ static void Types_LongestEnumerationElement (BuiltinFunction * function, Builtin
 
         instance->userInstanceData = (void *) nameLength;
     }
-    instance->result->words[0] = (unsigned) instance->userInstanceData;
+    instance->result->words[0] = (size_t) instance->userInstanceData;
 }
 
 BALSA_SIM_REGISTER_BUILTIN_LIB (types)

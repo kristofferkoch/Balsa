@@ -475,7 +475,7 @@ static void ColouriseMakeDoc(unsigned int startPos, int length, int, WordList *[
 	}
 }
 
-static bool strstart(char *haystack, char *needle) {
+static bool strstart(const char *haystack, const char *needle) {
 	return strncmp(haystack, needle, strlen(needle)) == 0;
 }
 

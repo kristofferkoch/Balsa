@@ -21,6 +21,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "debug.h"
 #include "libspring.h"
@@ -275,7 +276,10 @@ struct Chan *FindChanFromCharliesString (char *buf)
 
 void OnDebugMenu_HighlightCharliesSlowestPath (GtkMenuItem * menuitem, gpointer user_data)
 {
-    system ("grep -e '/c[0-9][^/]*' s2alog.txt | grep -v _0n__ |sort -u >s2alog.processed");
+  if (system ("grep -e '/c[0-9][^/]*' s2alog.txt | grep -v _0n__ |sort -u >s2alog.processed") < 0) {
+    perror("system");
+    exit(1);
+  }
 
     FILE *f = fopen ("s2alog.processed", "r");
 
@@ -299,6 +303,18 @@ void OnDebugMenu_HighlightCharliesSlowestPath (GtkMenuItem * menuitem, gpointer 
     }
 }
 
+static void safe_fgets(char *s, int size, FILE *stream)
+{
+  char *r;
+  if (size <= 0) return;
+  r = fgets(s, size, stream);
+  if (r == NULL && errno != 0) {
+    perror("fgets");
+    exit(1);
+  }
+  //safe_fgets(s+r, size-r, stream);
+}
+
 void OnDebugMenu_TranslateCharlieToTraceFile (GtkMenuItem * menuitem, gpointer user_data)
 {
     FILE *f = fopen ("s2alog.txt", "r");
@@ -311,15 +327,15 @@ void OnDebugMenu_TranslateCharlieToTraceFile (GtkMenuItem * menuitem, gpointer u
 
     char buf[100000];
 
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
-    fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
+    safe_fgets (buf, 100000, f);
 
     GList *transitions = NULL;
 

@@ -66,7 +66,7 @@ PtrMP_INT NewBuiltinValue (void *pointer)
 
     mpz_set_ui (ret, (((guint64) pointer) & 0xFFFFFFFF00000000) >> 32);
     mpz_mul_2exp (ret, ret, 32);
-    mpz_add_ui (ret, ret, ((guint32) pointer) & 0xFFFFFFFF);
+    mpz_add_ui (ret, ret, ((guint64) pointer) & 0xFFFFFFFF);
 #else
     PtrMP_INT ret = NewMP_INT (0);
 

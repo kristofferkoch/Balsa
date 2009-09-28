@@ -186,7 +186,10 @@ void TryParsingScript (char *filename, int pass)
 
     char buf[100];
 
-    fgets (buf, 100, f);
+    if (fgets (buf, 100, f) == NULL) {
+      perror("fgets");
+      exit(1);
+    }
     if (BEGINS_WITH (buf, "-- breeze-sim-ctrl script"))
     {
         if (pass == 1)

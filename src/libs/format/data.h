@@ -27,6 +27,8 @@
 #ifndef FORMAT_DATA_HEADER
 #define FORMAT_DATA_HEADER
 
+#include <stdlib.h>
+
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 # ifdef HAVE_STDINT_H
@@ -49,7 +51,7 @@ typedef FORMAT_LIB_UINT64 FormatUInt64;
 typedef struct
 {
     unsigned wordCount;
-    unsigned words[];           /* Alloc more here to size `wordCount' */
+    size_t words[];           /* Alloc more here to size `wordCount' */
 }
 FormatData;
 

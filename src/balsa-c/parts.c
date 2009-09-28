@@ -116,6 +116,8 @@ HandleParameter (Ptrchar actualSpec, unsigned paramNo, PtrComponent component,
 {
     PtrComponentSpec spec;
     char specChar;
+    size_t actualValueInt = (size_t)actualValue;
+    tIdent actualValueIdent = (tIdent)actualValueInt;
 
     /* Fail silently */
     if (!component)
@@ -144,8 +146,8 @@ HandleParameter (Ptrchar actualSpec, unsigned paramNo, PtrComponent component,
                 if (param->nature != StringComponentParameter)
                 {
                     LOG_ERROR (TypeIsNotValid, NoIdent, position);
-                } else
-                    param->value.string = PeekString ((tIdent) actualValue);
+                } else 		
+                    param->value.string = PeekString (actualValueIdent);
             } else if (strchr (actualSpec, 'i'))
             {
                 if (param->nature != NumberComponentParameter)
@@ -177,17 +179,19 @@ HandleParameter (Ptrchar actualSpec, unsigned paramNo, PtrComponent component,
             break;
         case '$':              /* string */
             if (spec->offsets[paramNo])
-                *((Ptrchar *) (((Ptrchar) component) + spec->offsets[paramNo])) = PeekString ((tIdent) actualValue);
+	      {
+                *((Ptrchar *) (((Ptrchar) component) + spec->offsets[paramNo])) = PeekString (actualValueIdent);
+	      }
             break;
         case 'b':              /* bool */
-            if (((tIdent) actualValue) != FalseIdent && ((tIdent) actualValue) != FalseIdent + 1)
+            if (actualValueIdent != FalseIdent && (actualValueIdent) != FalseIdent + 1)
                 LOG_ERROR (TypeIsNotValid, NoIdent, position);
-            else
-                *((bool *) (((Ptrchar) component) + spec->offsets[paramNo])) = ((tIdent) actualValue) - FalseIdent;
+            else 
+                *((bool *) (((Ptrchar) component) + spec->offsets[paramNo])) = (actualValueIdent) - FalseIdent;
             break;
         case 'B':              /* Operator (binary) */
             {
-                Operators op = FindBinaryOperator ((tIdent) actualValue, true);
+                Operators op = FindBinaryOperator (actualValueIdent, true);
 
                 if (op == InvalidOperator)
                     LOG_ERROR (TypeIsNotValid, NoIdent, position);
@@ -197,7 +201,7 @@ HandleParameter (Ptrchar actualSpec, unsigned paramNo, PtrComponent component,
             break;
         case 'U':              /* Operators (unary) */
             {
-                Operators op = FindUnaryOperator ((tIdent) actualValue, true);
+                Operators op = FindUnaryOperator (actualValueIdent, true);
 
                 if (op == InvalidOperator)
                     LOG_ERROR (TypeIsNotValid, NoIdent, position);

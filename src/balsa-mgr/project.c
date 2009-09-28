@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <gtk/gtk.h>
 
 #include "project.h"
@@ -313,7 +314,9 @@ void NewCurrentBalsaProject (char *name, char *directory)
     }
 
     /* change the working directory */
-    chdir (CurrentBalsaProject->directory);
+    if (chdir (CurrentBalsaProject->directory) < 0) {
+      // TODO: report error
+    }
 
     /* Display the Project Pane */
     gtk_widget_show (GTK_WIDGET (gtk_object_get_data (MainWindowObject, "ProjectNotebook")));
@@ -358,7 +361,10 @@ void SetAsCurrentBalsaProject (PtrBalsaProject project)
     {
         char buf[1000];
 
-        getcwd (buf, 1000);
+        if (getcwd (buf, 1000) == NULL) {
+	  perror("Could not getcwd");
+	  exit(1);
+	}
         CurrentBalsaProject->directory = g_strdup (buf);
         FileManager_RefreshAllDisplayedNames ();
     }

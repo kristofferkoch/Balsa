@@ -27,6 +27,7 @@
 #include "BreezeScanSource.h"
 #include "output.h"
 #include "rSystem.h"
+#include "Idents.h"
 #include <glib.h>
 
 int BalsaScan_BeginSource (Ptrchar fileName)
@@ -34,6 +35,7 @@ int BalsaScan_BeginSource (Ptrchar fileName)
     /* This function should only be called once at the top of the program */
     int fileNo = OpenInput (fileName);
     tIdent fileNameIdent = MakeIdent1 (fileName);
+    size_t intPtr; // sizeof gpointer == sizeof intPtr > sizeof tIdent
 
     /* Add this file onto the tree */
     CurrentFile = NewIdentList (fileNameIdent, NoPosition, CurrentFile);
@@ -41,7 +43,8 @@ int BalsaScan_BeginSource (Ptrchar fileName)
     if (!VisitedFiles)
         VisitedFiles = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-    g_hash_table_insert (VisitedFiles, (gpointer) fileNameIdent, (gpointer) 1);
+    intPtr = fileNameIdent;
+    g_hash_table_insert (VisitedFiles, (gpointer) intPtr, (gpointer) 1);
     FileNumber = 2;
 
     return fileNo;

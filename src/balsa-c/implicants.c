@@ -526,7 +526,7 @@ void StrPtrImplicantList (FILE * stream, PtrImplicantList list, bool inputForm, 
     {
         StrImplicant (stream, CAR (list), inputForm);
         if (CDR (list))
-            fprintf (stream, separator);
+	  fprintf (stream, "%s", separator);
 
         list = CDR (list);
     }

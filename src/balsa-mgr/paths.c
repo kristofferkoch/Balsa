@@ -429,7 +429,10 @@ char *ImportPaths_ConvertToRelativePath (char *path)
     {
         char buf[1000];
 
-        getcwd (buf, 1000);
+        if (getcwd (buf, 1000) == NULL) {
+	  perror("getcwd");
+	  exit(1);
+	}
         return ConvertToRelativePath (path, buf);
     }
 }
@@ -438,10 +441,22 @@ char *ImportPaths_ConvertToAbsolutePath (char *path)
 {
     char buf[1000];
 
-    chdir (CurrentBalsaProject->directory);
-    chdir (path);
-    getcwd (buf, 1000);
-    chdir (CurrentBalsaProject->directory);
+    if(chdir (CurrentBalsaProject->directory) < 0) {
+      perror("chdir");
+      exit(1);
+    }
+    if(chdir (path) < 0) {
+      perror("chdir");
+      exit(1);
+    }
+    if(getcwd (buf, 1000)==NULL) {
+      perror("getcwd");
+      exit(1);
+    }
+    if (chdir (CurrentBalsaProject->directory) < 0) {
+      perror("chdir");
+      exit(1);
+    }
     return g_strdup (buf);
 }
 
@@ -450,12 +465,28 @@ char *ConvertToAbsolutePath (char *path, char *pathref)
     char buf[1000];
     char buf2[1000];
 
-    getcwd (buf2, 1000);
+    if (getcwd (buf2, 1000) == NULL) {
+      perror("getcwd");
+      exit(1);
+    }
     if (pathref)
-        chdir (pathref);
-    chdir (path);
-    getcwd (buf, 1000);
-    chdir (buf2);
+      if (chdir (pathref) < 0) {
+	perror("chdir");
+	exit(1);
+      }
+    
+    if (chdir (path) < 0) {
+      perror("chdir");
+      exit(1);
+    }
+    if (getcwd (buf, 1000) == NULL) {
+      perror("getcwd");
+      exit(1);
+    }
+    if (chdir (buf2) < 0) {
+      perror("chdir");
+      exit(1);
+    }
     return g_strdup (buf);
 }
 

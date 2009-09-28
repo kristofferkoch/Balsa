@@ -55,7 +55,7 @@ static bool isNsisLetter(char ch)
   return (ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z');
 }
 
-static int NsisCmp( char *s1, char *s2, bool bIgnoreCase )
+static int NsisCmp( const char *s1, const char *s2, bool bIgnoreCase )
 {
   if( bIgnoreCase )
      return CompareCaseInsensitive( s1, s2);

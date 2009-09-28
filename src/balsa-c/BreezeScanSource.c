@@ -39,6 +39,7 @@ int BreezeScan_BeginSource (Ptrchar fileName)
 {
     int fileNo = OpenInput (fileName);
     tIdent fileNameIdent = MakeIdent1 (fileName);
+    size_t sz;
 
     /* Add this file onto the tree */
     CurrentFile = NewIdentList (fileNameIdent, NoPosition, CurrentFile);
@@ -46,7 +47,8 @@ int BreezeScan_BeginSource (Ptrchar fileName)
     if (!VisitedFiles)
         VisitedFiles = g_hash_table_new (g_direct_hash, g_direct_equal);
 
-    g_hash_table_insert (VisitedFiles, (gpointer) fileNameIdent, (gpointer) true);
+    sz = fileNameIdent;
+    g_hash_table_insert (VisitedFiles, (gpointer) sz, (gpointer) true);
 
     return fileNo;
 }
@@ -136,8 +138,9 @@ PtrContext HandleImport (Ptrchar dotpath, tPosition position, PtrContext context
         LOG_ERROR (CannotOpenFileToRead, MakeIdent1 (dotpath), position);
     else
     {
+      size_t ident = MakeIdent1 (filename);
         bool alreadyVisitedFile = (VisitedFiles ? (g_hash_table_lookup (VisitedFiles,
-              (gpointer) MakeIdent1 (filename)) != NULL) : false);
+              (gpointer) ident) != NULL) : false);
 
         /* Is this the latest identifier? (is the filename new?) */
         if (Verbose)

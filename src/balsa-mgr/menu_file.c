@@ -108,8 +108,12 @@ void UponFileMenu_LaunchEditor (GtkMenuItem * button, gpointer user_data)
         } else
             args[1] = filename;
 
-        if (CurrentBalsaProject)
-            chdir (CurrentBalsaProject->directory);
+        if (CurrentBalsaProject) {
+	  if ( chdir (CurrentBalsaProject->directory) < 0) {
+	    perror("chdir");
+	    exit(1);
+	  }
+	}
         RunCommandWithoutOutput (args[0], args);
     }
 }
@@ -130,8 +134,12 @@ void UponFileMenu_Print (GtkMenuItem * button, gpointer user_data)
 
         args[1] = filename;
 
-        if (CurrentBalsaProject)
-            chdir (CurrentBalsaProject->directory);
+        if (CurrentBalsaProject) {
+	  if (chdir (CurrentBalsaProject->directory) < 0) {
+	    perror("chdir");
+	    exit(1);
+	  }
+	}
         RunCommandWithoutOutput (args[0], args);
     }
 }

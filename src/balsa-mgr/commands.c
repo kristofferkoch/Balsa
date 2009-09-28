@@ -141,7 +141,9 @@ void RunCommandWithoutOutput (char *command, char **args)
          */
         char *comm = g_strjoinv (" ", args);
 
-        system (comm);
+        if (system (comm) < 0) {
+	  perror("system");
+	}
         free (comm);
         _exit (0);
     }

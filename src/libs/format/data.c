@@ -329,8 +329,8 @@ FormatData *FormatDataExtractBitField (FormatData * data, unsigned offset, unsig
     unsigned destIndex = 0;
     unsigned sourceOffset = offset % FORMAT_BITS_PER_INT;
     unsigned lastWordBitCount = bitCount % FORMAT_BITS_PER_INT;
-    unsigned *source = data->words + sourceIndex;
-    unsigned *dest = ret->words;
+    size_t *source = data->words + sourceIndex;
+    size_t *dest = ret->words;
 
     while (destIndex < returnWordCount && sourceIndex < data->wordCount)
     {
@@ -365,8 +365,8 @@ FormatData *FormatDataExtractBitField (FormatData * data, unsigned offset, unsig
         insertion of the bit field must also not require dst to grow */
 void FormatDataInsertBitField (FormatData * dst, FormatData * src, unsigned offset, unsigned bitCount)
 {
-    unsigned *dest = dst->words + offset / FORMAT_BITS_PER_INT;
-    unsigned *source = src->words;
+    size_t *dest = dst->words + offset / FORMAT_BITS_PER_INT;
+    size_t *source = src->words;
     unsigned bitOffset = offset % FORMAT_BITS_PER_INT;
 
     /* Special fix, if src->wordcount is < FormatBitCountToWordCount (bitCount):
@@ -480,7 +480,7 @@ void FormatDataInsertPointer (FormatData * data, void *pointer, unsigned offset,
         pointerAsFormatData->words[1] = pointerAsUnsigned[1];
     } else
     {
-        pointerAsFormatData->words[0] = (unsigned) pointer;
+        pointerAsFormatData->words[0] = (size_t) pointer;
         pointerAsFormatData->words[1] = 0;
     }
 
@@ -498,8 +498,8 @@ FormatData *FormatDataApplyBitField (FormatData * data, unsigned offset, unsigne
     unsigned sourceIndex = 0;
     unsigned destOffset = offset % FORMAT_BITS_PER_INT;
     unsigned lastWordBitCount = (offset + bitCount) % FORMAT_BITS_PER_INT;
-    unsigned *source = data->words;
-    unsigned *dest = ret->words + destIndex;
+    size_t *source = data->words;
+    size_t *dest = ret->words + destIndex;
 
     while (destIndex < returnWordCount && sourceIndex < data->wordCount)
     {
@@ -611,8 +611,8 @@ FormatData *FormatDataBitwiseOr (FormatData * data1, FormatData * data2)
 bool FormatDataEqual (FormatData * data1, FormatData * data2)
 {
     bool equal = true;
-    unsigned *shortData;
-    unsigned *longData;
+    size_t *shortData;
+    size_t *longData;
     unsigned shortLength;
     unsigned longLength;
 

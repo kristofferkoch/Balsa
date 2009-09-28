@@ -365,7 +365,7 @@ void StrPtrSpanList (FILE * stream, PtrSpanList list, bool longForm, char *separ
     {
         StrSpan (stream, CAR (list), longForm);
         if (CDR (list))
-            fprintf (stream, separator);
+	  fprintf (stream, "%s", separator);
         list = CDR (list);
     }
 }
@@ -377,7 +377,7 @@ void StrPtrSpanListList (FILE * stream, PtrSpanListList list, bool longForm, cha
     {
         StrPtrSpanList (stream, CAR (list), longForm, listSep);
         if (CDR (list))
-            fprintf (stream, listListSep);
+	  fprintf (stream, "%s", listListSep);
         list = CDR (list);
     }
 }

@@ -54,6 +54,22 @@ gboolean gtkwaveIsRunning = FALSE;
 void Simulation_Pause (void);
 void Simulation_Play (void);
 
+
+
+static void write_complete(int fd, const void *buf, size_t count)
+{
+  int r;
+  if (count <= 0) return;
+  r = write(fd, buf, count);
+  if (r < 0) {
+    perror("write");
+    exit(1);
+  }
+  // tail recursion needs gcc -O
+  write_complete(fd, buf+r, count-r);
+}
+
+
 void Simulation_SimLengthChanged (int length)
 {
 }
@@ -107,7 +123,7 @@ void SendSetspeedCommand (gboolean force)
         char *command = g_strdup_printf ("setspeed %d\n", value);
 
         // printf("%s\n",command);
-        write (breezesim_pipe[1], command, strlen (command));
+        write_complete (breezesim_pipe[1], command, strlen (command));
         g_free (command);
     }
 }
@@ -125,7 +141,7 @@ void gtkwave_input_received (gpointer data, int source, GdkInputCondition condit
 void gtkwave_send_command (char *command)
 {
     //  printf ("sent:%s.\n",command);
-    write (gtkwave_pipe1[1], command, strlen (command));
+    write_complete (gtkwave_pipe1[1], command, strlen (command));
     //  gdk_input_add (gtkwave_pipe2[0], GDK_INPUT_READ, gtkwave_input_received, NULL);
 
     char buf[10000];
@@ -209,8 +225,14 @@ void Launch_GTKWave (int delay)
         return;
     }
 
-    pipe (gtkwave_pipe1);
-    pipe (gtkwave_pipe2);
+    if (pipe (gtkwave_pipe1) < 0) {
+      perror("pipe");
+      exit(1);
+    }
+    if (pipe (gtkwave_pipe2) < 0) {
+      perror("pipe");
+      exit(1);
+    }
 
     gtkwavePid = fork ();
     if (gtkwavePid == 0)
@@ -279,7 +301,10 @@ void StartNewGTKWave (GtkButton * button, gpointer user_data)
 void Simulation_Run (void)
 {
     GrayControlIcons (FALSE, TRUE, FALSE);
-    pipe (breezesim_pipe);
+    if (pipe (breezesim_pipe) < 0) {
+      perror("pipe");
+      exit(1);
+    }
 
     breezesimPid = fork ();
     if (breezesimPid == 0)
@@ -333,7 +358,7 @@ void Simulation_Run (void)
 
     SendSetspeedCommand (TRUE);
 
-    write (breezesim_pipe[1], "run 1\n", 8);
+    write_complete (breezesim_pipe[1], "run 1\n", 8);
 
     simulationIsRunning = TRUE;
     simulationIsPaused = FALSE;
@@ -344,7 +369,7 @@ void Simulation_Play (void)
 {
     if (simulationIsRunning)
     {
-        write (breezesim_pipe[1], "resume\n", 7);
+        write_complete (breezesim_pipe[1], "resume\n", 7);
         GrayControlIcons (FALSE, TRUE, FALSE);
         simulationIsPaused = FALSE;
         UpdateLEDs ();
@@ -361,7 +386,7 @@ void Simulation_Play (void)
 
 void Simulation_Pause (void)
 {
-    write (breezesim_pipe[1], "pause\n", 6);
+    write_complete (breezesim_pipe[1], "pause\n", 6);
     GrayControlIcons (TRUE, TRUE, FALSE);
     simulationIsPaused = TRUE;
     UpdateLEDs ();
@@ -371,7 +396,7 @@ void Simulation_Pause (void)
 
 void Simulation_Stop (void)
 {
-    write (breezesim_pipe[1], "stop\n", 5);
+    write_complete (breezesim_pipe[1], "stop\n", 5);
     //    GrayControlIcons (TRUE, FALSE, FALSE);
 
     //    StopReadTraceTimer1 ();

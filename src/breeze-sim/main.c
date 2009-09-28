@@ -365,7 +365,7 @@ static void BalsaGetCommandLineArg (BuiltinFunction * function, BuiltinFunctionI
 /* InitBFile : play with the bfile functions so that the symbols here definately get exported by this binary */
 static void InitBFile (void)
 {
-    int x = (int) BalsaFileReadable + (int) BalsaFileWritable;
+  int x = GPOINTER_TO_INT(BalsaFileReadable) + GPOINTER_TO_INT(BalsaFileWritable);
 
     while (x)
         x = x >> 10;
@@ -782,7 +782,10 @@ int main (int argc, char **argv)
         {                       // child
             char *command = g_strdup_printf ("gtkwave %s", TraceFileName);
 
-            system (command);
+            if (system (command) < 0) {
+	      perror("system");
+	      exit(1);
+	    }
             exit (0);
         } else
             sleep (2);

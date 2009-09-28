@@ -1331,7 +1331,10 @@ void LoadGraphOntoExistingGraph (char *filename)
         ASSERT (fgets (name, 10000, f) != NULL);
         ASSERT (BEGINS_WITH (name, "childs="));
 
-        fgets (name, 10000, f);
+        if (fgets (name, 10000, f) == NULL) {
+	  perror("fgets");
+	  exit(1);
+	}
     }
 
     RefreshAllConnectedVertices ();
@@ -1820,7 +1823,10 @@ void FullLayoutWithDot (void)
 
     // Run dot
     remove ("tmp2.dot2");
-    system ("dot -o tmp2.dot2 tmp2.dot1");
+    if (system ("dot -o tmp2.dot2 tmp2.dot1") < 0) {
+      perror("system");
+      exit(1);
+    }
 
     libspring_LayoutProblem = ParseDotFile ("tmp2.dot2", FALSE, NULL);
 
@@ -1971,7 +1977,10 @@ void FinishDotFile (FILE * dotFile, gpointer id)
     char *command = g_strdup_printf ("dot -o tmp%ld.dot2 tmp%ld.dot1", (long) id, (long) id);
 
     // printf ("command=%s\n",command);
-    system (command);
+    if (system (command) < 0) {
+      perror("system");
+      exit(1);
+    }
     g_free (command);
 
     /*
@@ -2377,7 +2386,10 @@ void ScreenShot (char *filename)
 {
     char buf[10000];
 
-    getcwd (buf, 10000);
+    if (getcwd (buf, 10000) == NULL) {
+      perror("getcwd");
+      exit(1);
+    }
     printf ("Generating %s in %s\n", filename, buf);
 
     Screenshot_File = fopen (filename, "w");

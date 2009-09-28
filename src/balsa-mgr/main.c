@@ -31,6 +31,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -711,7 +712,9 @@ int main (int argc, char *argv[])
     }
 
     gtk_main ();
-    chdir (StartupPWD);
+    if (chdir (StartupPWD) == -1) {
+      printfConsole("Could not enter working directory\n");
+    }
     return 0;
 
     /*
@@ -784,8 +787,8 @@ void UponProjectMenu_Update (GtkMenuItem * menuitem, gpointer user_data)
     // Re-generate the project views (Files and Makefile)
     if (commandList)
     {
-        char *command = g_strdup_printf ("~ExecuteFunction0arg %d",
-          (int) UpdateProjectTrees);
+        char *command = g_strdup_printf ("~ExecuteFunction0arg %ld",
+          (size_t) UpdateProjectTrees);
 
         commandList = g_list_append (commandList, command);
         ExecutionManager_CheckBuildMakefileAndRunCommandList (commandList);
@@ -1894,7 +1897,9 @@ void UponProjectToolbar_LaunchEditor (GtkMenuItem * button, gpointer user_data)
            args[0] = "xterm";
          */
 
-        chdir (CurrentBalsaProject->directory);
+      if (chdir (CurrentBalsaProject->directory) == -1) {
+	// TODO: report error
+      }
         RunCommandWithoutOutput (args[0], args);
     }
 }

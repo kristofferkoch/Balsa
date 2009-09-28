@@ -286,11 +286,11 @@ GdkAtom ScintillaGTK::atomUTF8 = 0;
 GdkAtom ScintillaGTK::atomString = 0;
 
 static const GtkTargetEntry clipboardTargets[] = {
-	{ "UTF8_STRING", 0, TARGET_UTF8_STRING },
-	{ "STRING", 0, TARGET_STRING },
+  { (gchar *)"UTF8_STRING", 0, TARGET_UTF8_STRING },
+  { (gchar *)"STRING", 0, TARGET_STRING },
 //	    { "TEXT", 0, TARGET_TEXT },
 //	    { "COMPOUND_TEXT", 0, TARGET_COMPOUND_TEXT },
-	{ "text/uri-list", 0, 0 },
+  { (gchar *)"text/uri-list", 0, 0 },
 };
 static const gint nClipboardTargets = sizeof(clipboardTargets) / sizeof(clipboardTargets[0]);
 
@@ -735,8 +735,8 @@ void ScintillaGTK::DisplayCursor(Window::Cursor c) {
 void ScintillaGTK::StartDrag() {
 	dragWasDropped = false;
 	static const GtkTargetEntry targets[] = {
-	    { "UTF8_STRING", 0, TARGET_UTF8_STRING },
-	    { "STRING", 0, TARGET_STRING },
+	  { (gchar *)"UTF8_STRING", 0, TARGET_UTF8_STRING },
+	  { (gchar *)"STRING", 0, TARGET_STRING },
 	    // { "TEXT", 0, TARGET_TEXT },
 	    // { "COMPOUND_TEXT", 0, TARGET_COMPOUND_TEXT },
 	};
@@ -2412,7 +2412,7 @@ guint scintilla_get_type() {
 	if (!scintilla_type) {
 		Platform_Initialise();
 		static GtkTypeInfo scintilla_info = {
-		    "Scintilla",
+		  (gchar *)"Scintilla",
 		    sizeof (ScintillaObject),
 		    sizeof (ScintillaClass),
 		    (GtkClassInitFunc) scintilla_class_init,
@@ -2429,9 +2429,9 @@ guint scintilla_get_type() {
 }
 
 void ScintillaGTK::ClassInit(GtkObjectClass* object_class, GtkWidgetClass *widget_class, GtkContainerClass *container_class) {
-    atomClipboard = gdk_atom_intern("CLIPBOARD", FALSE);
-    atomUTF8 = gdk_atom_intern("UTF8_STRING", FALSE);
-    atomString = GDK_SELECTION_TYPE_STRING;
+	atomClipboard = gdk_atom_intern("CLIPBOARD", FALSE);
+	atomUTF8 = gdk_atom_intern("UTF8_STRING", FALSE);
+	atomString = GDK_SELECTION_TYPE_STRING;
 
 	// Define default signal handlers for the class:  Could move more
 	// of the signal handlers here (those that currently attached to wDraw

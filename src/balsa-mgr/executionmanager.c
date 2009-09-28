@@ -97,6 +97,20 @@ void ExecutionManager_ExecuteResultOfMakeNCommand (GList * infoCommandsList);
 void ExecutionManager_RunInfoCommandListForNode (GList * infoCommandList, GtkCTreeNode * treeNode);
 void UponExecutionCTree_SelectRow (GtkCTree * tree, GtkCTreeNode * node, gint column, gpointer user_data);
 
+
+static void write_complete(int fd, const void *buf, size_t count)
+{
+  int r;
+  if (count <= 0) return;
+  r = write(fd, buf, count);
+  if (r < 0) {
+    perror("write");
+    exit(1);
+  }
+  // tail recursion needs gcc -O
+  write_complete(fd, buf+r, count-r);
+}
+
 void ExecutionManager_StopProcessButton_SetAttachedNode (GtkCTreeNode * treeNode)
 {
     GtkWidget *TreeWidget = (GtkWidget *) gtk_object_get_data (GTK_OBJECT (ExecutionWindow),
@@ -601,8 +615,13 @@ void ExecutionManager_ExecuteResultOfMakeNCommand (GList * infoCommandsList)
         while (fgets (buf, 100000, f))
         {
             //printf("read:%s\n",buf);
-            while (buf[strlen (buf) - 2] == '\\')
-                fgets (buf + strlen (buf) - 2, 100000 - strlen (buf), f);
+	  while (buf[strlen (buf) - 2] == '\\') {
+	    
+	    if (fgets (buf + strlen (buf) - 2, 100000 - strlen (buf), f) == NULL) {
+	      perror("fgets");
+	      exit(1);
+	    }
+	  }
 
             if (strncmp (buf, "make", 4) && buf[0])
             {
@@ -935,7 +954,10 @@ void ExecutionManager_RunInfoCommandsList (GList * infoCommandsList)
         // Create the communication channel
         int comPipe[2];
 
-        pipe (comPipe);
+        if (pipe (comPipe) < 0) {
+	  perror("pipe");
+	  exit(1);
+	}
         int *tagp = g_new (int, 1);
         int tag = gdk_input_add (comPipe[0], GDK_INPUT_READ, communication_input_callback,
           (gpointer) tagp);
@@ -976,7 +998,7 @@ void ExecutionManager_RunInfoCommandsList (GList * infoCommandsList)
                       infoCommandsList->next,
                       command);
 
-                    write (comPipe[1], msgWhenMakeCommand, strlen (msgWhenMakeCommand));
+		    write_complete (comPipe[1], msgWhenMakeCommand, strlen (msgWhenMakeCommand));
                     continue;
                 }
 
@@ -993,11 +1015,29 @@ void ExecutionManager_RunInfoCommandsList (GList * infoCommandsList)
                       O_RDWR | O_CREAT,
                       S_IRUSR | S_IWUSR);
 
-                    chdir (CurrentBalsaProject->directory);
-                    dup2 (fileStdOut, 1); /* redirect stdout */
-                    dup2 (fileStdErr, 2); /* redirect stderr */
-                    close (fileStdOut);
-                    close (fileStdErr);
+                    if (chdir (CurrentBalsaProject->directory) < 0) {
+		      perror("chdir");
+		      exit(1);
+		    }
+		    /* redirect stdout: */
+                    if (dup2 (fileStdOut, 1) < 0) {
+		      perror("dup2");
+		      exit(1);
+		    }
+		    /* redirect stderr: */ 
+                    if (dup2 (fileStdErr, 2) < 0) {
+		      perror("dup2");
+		      exit(1);
+		    }
+		    
+                    if (close (fileStdOut) < 0) {
+		      perror("close");
+		      exit(1);
+		    }
+                    if (close (fileStdErr) < 0) {
+		      perror("close");
+		      exit(1);
+		    }
 
                     setpgid (0, 0);
                     int ret = system (command);
@@ -1022,7 +1062,7 @@ void ExecutionManager_RunInfoCommandsList (GList * infoCommandsList)
                       currentlyExecutedPid,
                       nameFileStdOut);
 
-                    write (comPipe[1], msgBeforeExecution, strlen (msgBeforeExecution));
+                    write_complete (comPipe[1], msgBeforeExecution, strlen (msgBeforeExecution));
                     while (waitpid (currentlyExecutedPid, &statuspid, 0) == -1 && errno == EINTR);
                 }
 
@@ -1041,32 +1081,32 @@ void ExecutionManager_RunInfoCommandsList (GList * infoCommandsList)
                       infoCommandsList->data,
                       WEXITSTATUS (statuspid));
 
-                    write (comPipe[1], msgAfterErrorExecution, strlen (msgAfterErrorExecution));
+                    write_complete (comPipe[1], msgAfterErrorExecution, strlen (msgAfterErrorExecution));
                     // don't execute other processes
                     for (infoCommandsList = infoCommandsList->next; infoCommandsList; infoCommandsList = infoCommandsList->next)
                     {
                         char *msgNoExecution = g_strdup_printf ("3 %p\n",
                           infoCommandsList->data);
 
-                        write (comPipe[1], msgNoExecution, strlen (msgNoExecution));
+                        write_complete (comPipe[1], msgNoExecution, strlen (msgNoExecution));
                     }
                 } else if (!strncmp (command, "make -n ", 8))
                 {
                     char *msgAfterMakeNExecution = g_strdup_printf ("4 %p\n",
                       infoCommandsList);
 
-                    write (comPipe[1], msgAfterMakeNExecution, strlen (msgAfterMakeNExecution));
+                    write_complete (comPipe[1], msgAfterMakeNExecution, strlen (msgAfterMakeNExecution));
                     // don't execute other processes
                     //                    infoCommandsList = 0;
                     break;
                 } else
-                    write (comPipe[1], msgAfterExecution, strlen (msgAfterExecution));
+                    write_complete (comPipe[1], msgAfterExecution, strlen (msgAfterExecution));
             }
 
             {
                 char *msgAfterWholeExecution = g_strdup_printf ("5 %d %d %d\n", tag, comPipe[0], comPipe[1]);
 
-                write (comPipe[1], msgAfterWholeExecution, strlen (msgAfterWholeExecution));
+                write_complete (comPipe[1], msgAfterWholeExecution, strlen (msgAfterWholeExecution));
             }
             _exit (0);
         } else

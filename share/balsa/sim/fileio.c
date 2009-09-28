@@ -116,7 +116,10 @@ static void Fileio_FileReadLine (BuiltinFunction * function, BuiltinFunctionInst
 
     if (BalsaFileReadable (file))
     {
-        fgets (line, 1024, file->file);
+      if (fgets (line, 1024, file->file) == NULL) {
+	perror("fgets");
+	exit(1);
+      }
         StringStripTrailingNL (line);
     }
 

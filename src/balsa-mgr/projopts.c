@@ -378,7 +378,10 @@ void UponProjectOptionsDialogueOK (GtkObject * dialogue)
         {
             CurrentBalsaProject->directory = g_strdup (project_directory);
             CurrentBalsaProject->dirty = TRUE;
-            chdir (CurrentBalsaProject->directory);
+            if (chdir (CurrentBalsaProject->directory) < 0) {
+	      perror("chdir");
+	      exit(1);
+	    }
         }
         if ((CurrentBalsaProject->B2LOPTS
             && strcmp (CurrentBalsaProject->B2LOPTS, project_B2LOPTS)) || (!CurrentBalsaProject->B2LOPTS && project_B2LOPTS[0]))

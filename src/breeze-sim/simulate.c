@@ -1147,7 +1147,7 @@ void GenericCallback_dataoff_OutOfOrder (struct comp *comp, int port)
 
 void ReportError (struct chan *chan, char *msg)
 {
-    fprintf (stderr, msg);
+  fprintf (stderr, "%s", msg);
     int chanNum = GET_CHAN_NUM (chan);
     extern struct BreezePart *breezePart; // defined in main.c
 

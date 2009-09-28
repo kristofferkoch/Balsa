@@ -104,9 +104,7 @@ Ptrchar ExpandPathToFile (Ptrchar path, Ptrchar extension)
                 path_max = 4096;
             Ptrchar canonPath = g_new (char, path_max);
 
-            errno = 0;
-            realpath (path, canonPath);
-            if (errno != 0)
+            if (realpath (path, canonPath) == NULL)
             {
                 fprintf (stderr, "can't canonicalise path to file `%s'\n", tryFile);
                 return NULL;
