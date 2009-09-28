@@ -473,9 +473,11 @@ void initialiseBreezePartChannelsChannel (struct BreezePartChannelsChannel *chan
 
         for (; args; args = g_list_next (args))
         {
-            if (TMPIsHeaded (args->data, "at"))
+	  if (TMPIsHeaded (args->data, "at"))
+	    {
                 channel->position = parsePositionNode (args->data);
-            else if (TMPIsHeaded (args->data, "name"))
+		g_assert(channel->position != NULL);
+	    } else if (TMPIsHeaded (args->data, "name"))
                 channel->name = g_strdup (((PtrTMPNode) ((PtrTMPNode) (args->data))->body.list->next->data)->body.string);
             else if (TMPIsHeaded (args->data, "type"))
                 channel->typeNode = ((PtrTMPNode) (args->data))->body.list->next->data;
@@ -484,6 +486,8 @@ void initialiseBreezePartChannelsChannel (struct BreezePartChannelsChannel *chan
         }
     }
     free (node);
+
+    g_assert(channel->position != NULL);
 
     channel->initialised = TRUE;
 }
@@ -1052,9 +1056,14 @@ char *getBreezePartChannelsChannelName (struct BreezePartChannelsChannel *channe
 
 struct Position *getBreezePartChannelsChannelPosition (struct BreezePartChannelsChannel *channel)
 {
+  g_assert(channel != NULL);
     if (!channel->initialised)
+      {
         initialiseBreezePartChannelsChannel (channel);
+      }
 
+    g_assert(channel->initialised);
+    g_assert(channel->position != NULL);
     return channel->position;
 }
 
@@ -1102,8 +1111,8 @@ void setBreezePartChannelsChannelTypeNode (struct BreezePartChannelsChannel *cha
 
 struct BreezePartChannelsChannel *DeepCopyBreezePartChannelsChannel (struct BreezePartChannelsChannel *chan)
 {
-    struct BreezePartChannelsChannel *newChan = (struct BreezePartChannelsChannel *) calloc (1,
-      sizeof (struct BreezePartChannelsChannel));
+    struct BreezePartChannelsChannel *newChan
+      = g_new0(struct BreezePartChannelsChannel, 1);
 
     newChan->contents = chan->contents;
     newChan->initialised = chan->initialised;

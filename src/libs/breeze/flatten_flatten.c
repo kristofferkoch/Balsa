@@ -199,7 +199,7 @@ GList *shiftedCopy (GList * components, int shiftVal, struct BreezePartComponent
 
 #ifdef _DEBUG
     printf ("ShiftedCopy by %d for ", shiftVal);
-    dumpBreezePartComponentsComponent (stdout, callingComp);
+    dumpBreezePartComponentsComponent (stdout, callingComp, 0);
 #endif
 
     for (tmp = newCompList; tmp; tmp = tmp->next)
@@ -241,7 +241,15 @@ GList *ShiftedCopyChanContextNums (GList * chans, int contextShift)
     {
         struct BreezePartChannelsChannel *chan = tmp->data;
         struct BreezePartChannelsChannel *newChan = DeepCopyBreezePartChannelsChannel (chan);
+
+	#ifdef _DEBUG
+	//dumpBreezePartChannelsChannel(stderr, chan, 0);
+	#endif
+
         struct Position *pos = getBreezePartChannelsChannelPosition (newChan);
+
+
+	g_assert(pos != NULL);
 
         tmp->data = newChan;
         pos->context += contextShift;
