@@ -38,7 +38,7 @@
 /* NewFormatData : make a new, 0 initialised FormatData structure with `wordCount' words */
 FormatData *NewFormatData (unsigned wordCount)
 {
-    FormatData *ret = malloc (sizeof (FormatData) + wordCount * sizeof (unsigned));
+    FormatData *ret = malloc (sizeof (FormatData) + wordCount * sizeof (size_t));
 
     ret->wordCount = wordCount;
     FormatDataSetWords (ret, 0);
